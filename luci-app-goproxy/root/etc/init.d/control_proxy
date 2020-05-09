@@ -1,0 +1,48 @@
+#!/bin/sh /etc/rc.common
+START=50
+
+run_proxy()
+{
+	##var defination
+	local mode
+	local cmd
+	local switch
+	##var assignment
+	config_get switch $1 switch
+	config_get mode $1 mode
+	config_get cmd $1 cmd
+	binary="/usr/bin/goproxy/proxy "
+	##pre-treatment
+	case $switch in
+	enable)
+		shutdown_process
+		main_process
+		;;
+	disable)
+		shutdown_process
+		;;
+	esac
+	#####
+}
+main_process()
+{
+	guard="--daemon --forever"
+	$binary $cmd $guard
+}
+shutdown_process()
+{
+	kill -9 $(pidof proxy)
+	kill -9 $(pidof proxy)
+	echo "stoped"
+}
+start()
+{
+	sleep 5
+	config_load proxy
+	config_foreach run_proxy login
+}
+
+stop()
+{
+	echo "proxy has stoped."
+}

@@ -1,0 +1,6 @@
+
+config login
+	option switch 'disable'
+	option mode 'manual'
+	option cmd ''
+	
